@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { withStyles, AppBar, Toolbar, Typography, Button } from 'material-ui';
 
+import PageChatList from '../PageList';
+
 import * as styles from './style.less';
 
 export interface IProps {
@@ -28,7 +30,8 @@ const App: React.SFC<IProps> = (): React.ReactElement<IProps> => (
 		</Helmet>
 
 		<ApplicationBar />
-		<Route exact path="/" component={() => <h1>Index page</h1>} />
+		<Route exact path="/" component={PageChatList} />
+		<Route exact path="/room/:hash" component={() => <h1>Chat page</h1>} />
 	</div>
 );
 

@@ -53,3 +53,7 @@ interface SymbolConstructor {
 	readonly iterator: symbol;
 }
 declare var Symbol: SymbolConstructor;
+
+declare type Dictionary<T> = {
+	[key: string]: T;
+}
