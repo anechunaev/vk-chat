@@ -8,7 +8,7 @@ export interface IProps extends IBaseProps {
 	city: string;
 }
 
-class CityImageView extends React.PureComponent<IProps> {
+class CityImageView extends React.Component<IProps> {
 	public render() {
 		return (
 			<CardMedia

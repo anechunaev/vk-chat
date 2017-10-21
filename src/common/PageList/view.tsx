@@ -14,7 +14,7 @@ export interface IProps extends IBaseProps, IState {
 	callbacks: Dictionary<Dictionary<() => void>>;
 }
 
-const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType) => {
+const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType): any[] => {
 	const roomNodes = rooms.filter(room => room.group === selectedGroup).map((room, index) => (
 		<ChatRoomCard
 			key={index}
@@ -34,7 +34,7 @@ const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType) => {
 		return roomNodes;
 	}
 
-	return <div>Нет доступных чатов</div>;
+	return [<div>Нет доступных чатов</div>];
 }
 
 class PageView extends React.Component<IProps> {
@@ -55,7 +55,7 @@ class PageView extends React.Component<IProps> {
 					</List>
 				</Drawer>
 				<div className={classes.cardHolder}>
-					{getRooms(rooms, selectedGroup)}
+					{(() => [...getRooms(rooms, selectedGroup)])()}
 				</div>
 			</div>
 		)

@@ -32,7 +32,7 @@ const getAvatarClassName = (type: string, classes: Dictionary<string>) => {
 	return classes.avatarTrain;
 }
 
-class ChatRoomCardView extends React.PureComponent<IProps> {
+class ChatRoomCardView extends React.Component<IProps> {
 	public render() {
 		const {
 			classes,
@@ -46,7 +46,7 @@ class ChatRoomCardView extends React.PureComponent<IProps> {
 			hash,
 		} = this.props;
 		return (
-			<Card className={classes.card} onClick={() => window.location = `/room/${hash}`}>
+			<Card className={classes.card} onClick={() => window.location = `/room/${hash}${window.location.search}`}>
 				<CardHeader
 					avatar={(
 						<Avatar className={getAvatarClassName(type, classes)}>
@@ -57,7 +57,7 @@ class ChatRoomCardView extends React.PureComponent<IProps> {
 					subheader={subtitle}
 				/>
 				{!!city && (
-					<CityImage>{city}</CityImage>
+					<CityImage city={city} />
 				)}
 				<CardActions>
 					<IconButton>

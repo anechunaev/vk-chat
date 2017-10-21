@@ -2,6 +2,7 @@ import * as React from 'react';
 import { withStyles } from 'material-ui';
 import styles from './style'
 import View from './view';
+import * as moment from 'moment';
 
 export interface IProps {
 }
@@ -28,60 +29,99 @@ export type ChatGroup = {
 	type: ChatGroupType;
 }
 
+declare interface Window {
+	backendData: any;
+}
+declare const window:Window;
+
 const EnhancedView: any = withStyles(styles)(View as any);
+moment.locale('ru');
+
+const getTitle = (group, type, city) => {
+	if (group === 'transport') {
+		let result = 'Попутчики в ';
+		switch (type) {
+		case 'flight':
+			result += 'самолёте в город ' + city;
+			break;
+		default:
+			result += 'поезде в город ' + city;
+		}
+
+		return result;
+	}
+
+	return 'Попутчики в город ' + city;
+}
 
 class PageList extends React.Component<IProps, IState> {
 	constructor(props) {
 		super(props);
 
-		// Fake state. Sorry for that.
-		this.state = {
-			rooms: [
-				{
-					group: "transport",
-					type: "train",
-					title: "Попутчики в поезде в Москву",
-					date: "23 октября 2017",
-					isJoined: true,
-					city: "Москва",
-					users: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
-					newMessages: 5,
-					hash: '1',
-				},
-				{
-					group: "transport",
-					type: "flight",
-					title: "Попутчики в самолёте в Амстердам",
-					date: "15 декабря 2017",
-					isJoined: false,
-					city: "Амстердам",
-					users: ["1", "2", "3", "4", "5", "6", "7"],
-					hash: '2',
-				},
-				{
-					group: "place",
-					type: "place",
-					title: "Попутчики в Москву",
-					date: "23 октября 2017",
-					isJoined: true,
-					city: "Москва",
-					users: ["1", "2", "3", "4", "5"],
-					hash: '3',
-				}
-			],
-			selectedGroup: "transport",
-			groups: [
-				{
-					icon: "airport_shuttle",
-					name: "Поездки",
-					type: "transport"
-				},
-				{
-					icon: "place",
-					name: "Города",
-					type: "place"
-				},
-			],
+		if (!SERVER) {
+			console.log(window.backendData);
+			
+			this.state = {
+				rooms: (() => {
+					const result: any[] = [];
+					for (const key in window.backendData.roomList) {
+						const room = window.backendData.roomList[key];
+
+						result.push({
+							group: room.group,
+							type: room.type,
+							title: getTitle(room.group, room.type, room.city),
+							date: moment(room.date).format('DD MMMM YYYY'),
+							isJoined: room.isJoined,
+							city: room.city,
+							users: room.users,
+							newMessages: room.newMessages || 0,
+							hash: key
+						})
+					}
+					return result;
+				})(),
+				selectedGroup: 'transport',
+				groups: [
+					{
+						icon: "airport_shuttle",
+						name: "Поездки",
+						type: "transport"
+					},
+					{
+						icon: "home",
+						name: "Отели",
+						type: "hotel"
+					},
+					{
+						icon: "place",
+						name: "Города",
+						type: "place"
+					}
+				]
+			};
+		} else {
+			this.state = {
+				rooms: [],
+				selectedGroup: 'transport',
+				groups: [
+					{
+						icon: "airport_shuttle",
+						name: "Поездки",
+						type: "transport"
+					},
+					{
+						icon: "home",
+						name: "Отели",
+						type: "hotel"
+					},
+					{
+						icon: "place",
+						name: "Города",
+						type: "place"
+					}
+				]
+			};
 		}
 	}
 

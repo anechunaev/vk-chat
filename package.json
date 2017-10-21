@@ -98,6 +98,7 @@
     "material-ui": "^1.0.0-beta.17",
     "material-ui-icons": "^1.0.0-beta.17",
     "microseconds": "^0.1.0",
+    "moment": "^2.19.1",
     "morgan": "^1.8.2",
     "normalize.css": "^7.0.0",
     "pusher-js": "^4.2.1",

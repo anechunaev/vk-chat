@@ -9,7 +9,7 @@ import View from './view';
 import styles from './style';
 
 export interface IProps {
-	children: string;
+	city: string;
 }
 export interface IState {
 	city: string;
@@ -21,8 +21,7 @@ declare interface Window {
 }
 declare const window: Window;
 
-class ChatCityImage extends React.PureComponent<IProps, IState> {
-
+class ChatCityImage extends React.Component<IProps, IState> {
 	private _map;
 
 	constructor(props) {
@@ -41,44 +40,56 @@ class ChatCityImage extends React.PureComponent<IProps, IState> {
 			}
 		}))(({ classes }) => (
 			<div style={{width: '100%', height: '150px', position: 'relative', backgroundColor: '#eee'}}>
-				<div key="map" ref={n => this._map = n} />
 				<div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
 					<Progress color="primary" className={classes.progress} />
 				</div>
 			</div>
 		));
 
-		return !!this.state.city ? (
-			<EnhancedView {...this.state} />
-		) : (
-			<EnhancedProgress />
+		return (
+			<div>
+				<div key="map" ref={n => this._map = n} />
+				{console.log('Draw image', this.state.city)}
+				{!!this.state.city ? (
+					<EnhancedView {...this.state} />
+				) : (
+					<EnhancedProgress />
+				)}
+			</div>
 		)
 	}
 
-	public componentDidMount() {
-		const googleQuery = () => {
-			const service = new window.google.maps.places.PlacesService(this._map);
-			service.textSearch({
-				query: this.props.children
-			}, (data, status) => {
-				if (status == window.google.maps.places.PlacesServiceStatus.OK) {
-					service.getDetails({
-						placeId: data[0].place_id
-					}, (place, requestStatus) => {
-						if (!!place.photos.length) {
-							this.setState({
-								city: place.photos[0].getUrl({'maxWidth': 600, 'maxHeight': 600})
-							});
-						}
-					})
-				}
-			})
-		}
+	public googleQuery = () => {
+		const service = new window.google.maps.places.PlacesService(this._map);
+		service.textSearch({
+			query: this.props.city
+		}, (data, status) => {
+			console.log('send query', this.props.city, this.state.city);
+			if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+				service.getDetails({
+					placeId: data[0].place_id
+				}, (place, requestStatus) => {
+					if (!!place.photos.length) {
+						this.setState({
+							city: place.photos[0].getUrl({'maxWidth': 600, 'maxHeight': 600})
+						});
+					}
+				})
+			}
+		})
+	}
 
-		if (!!window.google) {
-			googleQuery();
-		} else {
-			setTimeout(googleQuery, 1000);
+	public componentDidUpdate(nextProps, nextState) {
+		if (nextProps.city !== this.props.city) {
+			this.googleQuery();
+			this.forceUpdate();
+		}
+	}
+
+	public componentDidMount() {
+		console.log('mount', this.props.city);
+		if (!SERVER && !this.state.city) {
+			setTimeout(this.googleQuery.bind(this), 1000);
 		}
 	}
 }

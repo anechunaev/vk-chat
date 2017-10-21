@@ -103,12 +103,8 @@ app.use(compose([
 app.use('/', express.static('dist/public'));
 
 app.use('/', (req, res, next) => {
-	console.log(req.query)
-
 	fetchChatList(req.query.viewer_id)
 		.then((data) => {
-			console.log(data);
-
 			(res as any).backendData = {
 				roomList: data
 			};
