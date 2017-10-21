@@ -11,7 +11,7 @@ export interface IProps {
 	type: string;
 	title: string;
 	subtitle: string;
-	media?: string;
+	city?: string;
 }
 
 const EnhancedView = withStyles(styles)(View);

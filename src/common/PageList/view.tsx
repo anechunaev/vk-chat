@@ -1,67 +1,60 @@
 import * as React from 'react';
-import { IProps as IBaseProps } from './index';
+import { IProps as IBaseProps, IState, ChatRoom, ChatGroupType } from './index';
 
 import {
 	Drawer,
-	Icon,
 	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
 } from 'material-ui';
 
 import ChatRoomCard from '../ChatRoomCard';
+import ChatGroupListItem from '../ChatGroupListItem';
 
-export interface IProps extends IBaseProps {
+export interface IProps extends IBaseProps, IState {
 	classes: Dictionary<string>;
+	callbacks: Dictionary<Dictionary<() => void>>;
+}
+
+const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType) => {
+	const roomNodes = rooms.filter(room => room.group === selectedGroup).map((room, index) => (
+		<ChatRoomCard
+			key={index}
+			usersCount={room.users.length}
+			newMessagesCount={room.newMessages}
+			join={!room.isJoined}
+			group={room.group}
+			type={room.type}
+			title={room.title}
+			subtitle={room.date}
+			city={room.city}
+		/>
+	));
+
+	if (!!roomNodes) {
+		return roomNodes;
+	}
+
+	return <div>Нет доступных чатов</div>;
 }
 
 class PageView extends React.Component<IProps> {
 	public render() {
-		const { classes } = this.props;
+		const { classes, rooms, selectedGroup, groups, callbacks } = this.props;
 		return (
 			<div className={classes.wrapper}>
 				<Drawer open type="permanent" className={classes.drawerPaper} classes={{ paper: classes.paper }}>
 					<List>
-						<ListItem button>
-							<ListItemIcon>
-								<Icon>airport_shuttle</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Поездки" />
-						</ListItem>
-						<ListItem button>
-							<ListItemIcon>
-								<Icon>home</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Отели" />
-						</ListItem>
-						<ListItem button>
-							<ListItemIcon>
-								<Icon>place</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Города" />
-						</ListItem>
+						{groups.map((group, index) => (
+							<ChatGroupListItem
+								icon={group.icon}
+								text={group.name}
+								key={index}
+								onClick={callbacks.group[group.type]}
+							/>
+						))}
 					</List>
 				</Drawer>
 				<div className={classes.cardHolder}>
-					<ChatRoomCard
-						usersCount={23}
-						newMessagesCount={3}
-						group="transport"
-						type="train"
-						title="Поезд в Москву"
-						subtitle="Отправление 23 октября 2017"
-						media="http://old.russkie-prostori.com/blog/wp-content/uploads/2013/12/sapsan2009_18-600x384.jpg"
-					/>
-					<ChatRoomCard
-						usersCount={11}
-						newMessagesCount={0}
-						group="transport"
-						type="train"
-						title="Поезд в Москву"
-						subtitle="Отправление 23 октября 2017"
-						media="http://old.russkie-prostori.com/blog/wp-content/uploads/2013/12/sapsan2009_18-600x384.jpg"
-					/>
+					{getRooms(rooms, selectedGroup)}
 				</div>
 			</div>
 		)
