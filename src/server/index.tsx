@@ -23,8 +23,14 @@ import Html from 'src/server/views/server';
 //import App from 'src/common/App';
 
 import * as paths from 'config/paths';
+import * as bodyParser from 'body-parser';
 
-import {fetchChatList} from './externalApi';
+import {
+	fetchChatList, 
+	fetchInitialChatData, 
+	fetchSendMessage
+} from './externalApi';
+import {actualizeNamesAndAvatars} from './fixer';
 
 const [manifest, chunkManifest] = ['manifest', 'chunk-manifest'].map(
 	name => JSON.parse(
@@ -102,7 +108,22 @@ app.use(compose([
 
 app.use('/', express.static('dist/public'));
 
-app.use('/', (req, res, next) => {
+app.use(bodyParser.urlencoded({extended: true}));
+app.post('/ajax/send', (req, res, next) => {
+	fetchSendMessage({
+		chatId: req.body.chat_id,
+		vkId: req.body.vk_id,
+		message: req.body.message
+	}).then((response) => {
+		return response.text()
+	}).then((data) => {
+		res.send({result: 'ok'});
+	}).catch(() => {
+		res.send({result: 'error'});
+	})
+})
+
+app.get('/', (req, res, next) => {
 	fetchChatList(req.query.viewer_id)
 		.then((data) => {
 			(res as any).backendData = {
@@ -110,6 +131,27 @@ app.use('/', (req, res, next) => {
 			};
 
 			next();
+		}).catch((err) => {
+			res.send(err);
+		});
+})
+
+app.get('/room/:hash', (req, res, next) => {
+	fetchInitialChatData(req.query.viewer_id, req.params.hash)
+		.then((data) => {
+			return actualizeNamesAndAvatars(data);
+		})
+		.then((data) => {
+			(res as any).backendData = {
+				...data,
+				roomId: req.params.hash,
+				userId: req.query.viewer_id
+			};
+			
+			next();
+		})
+		.catch((err) => {
+			res.send(err);
 		});
 })
 

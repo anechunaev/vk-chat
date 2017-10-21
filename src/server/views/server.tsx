@@ -15,6 +15,7 @@ const Html = ({ head, html, scripts, window, css, vendorCss }: HtmlProps) => (
 		<head>
 			<meta charSet="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="csrf-token" content="t0k3n" />
 			{head.meta.toComponent()}
 			<link rel="stylesheet" href={vendorCss} />
 			<link rel="stylesheet" href={css} />
