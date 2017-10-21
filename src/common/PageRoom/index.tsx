@@ -143,6 +143,7 @@ export default class Room extends React.Component<{}, IState> {
     public render () {
         return <View 
             chatName='Поезд Москва&nbsp;&mdash; Махачкала, 13.11.2017'
+            chatAvatarUrl='https://pp.userapi.com/c639118/v639118164/3f3b8/rTP6v_6Z-iU.jpg'
             messages={this.state.messages}
             users={this.state.users}
             showModal={this.state.showModal}

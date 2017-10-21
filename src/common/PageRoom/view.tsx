@@ -30,6 +30,7 @@ export interface IProps {
     users: IUser[];
     messageText: string;
     chatName: string;
+    chatAvatarUrl: string;
     showModal: boolean;
     onSendClick?: () => void;
     onChatAvatarClick: () => void;
@@ -59,6 +60,7 @@ const RoomView: React.StatelessComponent<IProps> = ({
     users,
     messageText,
     chatName,
+    chatAvatarUrl,
     showModal, 
     onSendClick, 
     onTextChange,
@@ -82,7 +84,7 @@ const RoomView: React.StatelessComponent<IProps> = ({
                 </div>
                 <div className={styles.rightToolsWrp} onClick={onChatAvatarClick}>
                     <Avatar
-                        src='https://pp.userapi.com/c639118/v639118164/3f3b8/rTP6v_6Z-iU.jpg'
+                        src={chatAvatarUrl}
                     />
                     <Dialog
                         open={showModal}
