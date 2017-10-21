@@ -8,10 +8,10 @@ export interface IProps {
 }
 export interface IState {
 	rooms: ChatRoom[];
-	selectedGroup: ChatGroupType;
+	selectedGroup: ChatGroupType|null;
 	groups: ChatGroup[];
 }
-export type ChatGroupType = "transport"|"hotel"|"place";
+export type ChatGroupType = "transport"|"hotel"|"place"|null;
 export type ChatRoom = {
 	group: ChatGroupType;
 	type: string;
@@ -59,8 +59,6 @@ class PageList extends React.Component<IProps, IState> {
 		super(props);
 
 		if (!SERVER) {
-			console.log(window.backendData);
-			
 			this.state = {
 				rooms: (() => {
 					const result: any[] = [];
@@ -81,7 +79,7 @@ class PageList extends React.Component<IProps, IState> {
 					}
 					return result;
 				})(),
-				selectedGroup: 'transport',
+				selectedGroup: null,
 				groups: [
 					{
 						icon: "airport_shuttle",
@@ -103,24 +101,8 @@ class PageList extends React.Component<IProps, IState> {
 		} else {
 			this.state = {
 				rooms: [],
-				selectedGroup: 'transport',
-				groups: [
-					{
-						icon: "airport_shuttle",
-						name: "Поездки",
-						type: "transport"
-					},
-					{
-						icon: "home",
-						name: "Отели",
-						type: "hotel"
-					},
-					{
-						icon: "place",
-						name: "Города",
-						type: "place"
-					}
-				]
+				selectedGroup: null,
+				groups: []
 			};
 		}
 	}
@@ -128,9 +110,9 @@ class PageList extends React.Component<IProps, IState> {
 	public render() {
 		const callbacks = {
 			group: {
-				transport: () => this.setState({selectedGroup: "transport"}),
-				place: () => this.setState({selectedGroup: "place"}),
-				hotel: () => this.setState({selectedGroup: "hotel"}),
+				transport: () => this.setState({selectedGroup: this.state.selectedGroup === "transport" ? null : "transport"}),
+				place: () => this.setState({selectedGroup: this.state.selectedGroup === "place" ? null : "place"}),
+				hotel: () => this.setState({selectedGroup: this.state.selectedGroup === "hotel" ? null : "hotel"}),
 			}
 		}
 		return (

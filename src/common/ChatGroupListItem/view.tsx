@@ -9,13 +9,13 @@ import {
 import { IProps as IBaseProps } from './index';
 
 export interface IProps extends IBaseProps {
-	classes?: Dictionary<string>;
+	classes: Dictionary<string>;
 }
 
 class GroupListItemView extends React.PureComponent<IProps> {
 	public render() {
 		return (
-			<ListItem button onClick={this.props.onClick}>
+			<ListItem button onClick={this.props.onClick} className={this.props.selected ? this.props.classes.selected : ''}>
 				<ListItemIcon>
 					<Icon>{this.props.icon}</Icon>
 				</ListItemIcon>

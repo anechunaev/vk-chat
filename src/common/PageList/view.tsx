@@ -15,7 +15,7 @@ export interface IProps extends IBaseProps, IState {
 }
 
 const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType): any[] => {
-	const roomNodes = rooms.filter(room => room.group === selectedGroup).map((room, index) => (
+	const roomNodes = rooms.filter(room => (room.group === selectedGroup || selectedGroup === null)).map((room, index) => (
 		<ChatRoomCard
 			key={index}
 			usersCount={room.users.length}
@@ -49,7 +49,8 @@ class PageView extends React.Component<IProps> {
 								icon={group.icon}
 								text={group.name}
 								key={index}
-								onClick={callbacks.group[group.type]}
+								selected={selectedGroup === group.type}
+								onClick={callbacks.group[group.type || 'transport']}
 							/>
 						))}
 					</List>
