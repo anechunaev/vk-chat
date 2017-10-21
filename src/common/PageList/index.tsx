@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui';
 import styles from './style'
 import View from './view';
 import * as moment from 'moment';
+import getTitle from '../getTitle';
 
 export interface IProps {
 }
@@ -37,23 +38,6 @@ declare const window:Window;
 const EnhancedView: any = withStyles(styles)(View as any);
 moment.locale('ru');
 
-const getTitle = (group, type, city) => {
-	if (group === 'transport') {
-		let result = 'Попутчики в ';
-		switch (type) {
-		case 'flight':
-			result += 'самолёте в город ' + city;
-			break;
-		default:
-			result += 'поезде в город ' + city;
-		}
-
-		return result;
-	}
-
-	return 'Попутчики в город ' + city;
-}
-
 class PageList extends React.Component<IProps, IState> {
 	constructor(props) {
 		super(props);
@@ -68,7 +52,7 @@ class PageList extends React.Component<IProps, IState> {
 						result.push({
 							group: room.group,
 							type: room.type,
-							title: getTitle(room.group, room.type, room.city),
+							title: getTitle(room.group, room.type, room.city, room.title),
 							date: moment(room.date).format('DD MMMM YYYY'),
 							isJoined: room.isJoined,
 							city: room.city,
