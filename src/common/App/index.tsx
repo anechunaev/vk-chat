@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import { withStyles, AppBar, Toolbar, Typography, Button } from 'material-ui';
 
 import PageChatList from '../PageList';
+import PageRoom from '../PageRoom';
 
 import * as styles from './style.less';
 
@@ -31,7 +32,7 @@ const App: React.SFC<IProps> = (): React.ReactElement<IProps> => (
 
 		<ApplicationBar />
 		<Route exact path="/" component={PageChatList} />
-		<Route exact path="/room/:hash" component={() => <h1>Chat page</h1>} />
+		<Route exact path="/room/:hash" component={PageRoom} />
 	</div>
 );
 
