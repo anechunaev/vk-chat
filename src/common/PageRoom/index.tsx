@@ -1,8 +1,9 @@
 import * as React from 'react';
 import View, {IUser, IMessage} from './view';
 
-import restoreData from "./restorer";
-import * as Echo from "laravel-echo"
+import restoreData, {prepareMessages} from "./restorer";
+
+import getTitle from '../getTitle';
 
 interface IState {
     messages: IMessage[];
@@ -33,36 +34,35 @@ export default class Room extends React.Component<{}, IState> {
     public componentDidMount () {
         this.scrollDown();
 
-        (window as any).Pusher = require('pusher-js');
-        (window as any).Echo = new Echo({
-            broadcaster: 'pusher',
-            key: '04cd0d5b4a6e54bb90c7',
-            cluster: 'eu',
-            encrypted: true
-        });
-
-        (window as any).Echo.channel('chat.1')
-            .listen('NewMessage', (e) => {
-                console.log(e);
-            });
+        setInterval(this.checkNewMessages, 1000);
     }
 
-    // private onNewMessage (message: IMessage) {
-    //     const prevListHeight = this.listRef ? this.listRef.getBoundingClientRect().height : 0;
+    private checkNewMessages = () => {
+        fetch(`/ajax/get_new_messages?chat_id=${(window as any).backendData.roomId}&vk_id=${(window as any).backendData.userId}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            prepareMessages(data, (window as any).backendData.users || []).forEach((message) => {
+                this.onNewMessage(message);
+            })
+        }).catch((err) => {})
+    }
 
-    //     this.setState(
-    //         (prevState, props) => {
-    //             prevState.messages.push(message);
+    private onNewMessage (message: IMessage) {
+        const prevListHeight = this.listRef ? this.listRef.getBoundingClientRect().height : 0;
 
-    //             return prevState;
-    //         }, 
-    //         () => {
-    //             if (prevListHeight <= Math.ceil(this.listContainerRef.getBoundingClientRect().height + this.listContainerRef.scrollTop) + 100) {
-    //                 this.scrollDown();
-    //             }
-    //         }
-    //     );
-    // }
+        this.setState(
+            (prevState, props) => {
+                prevState.messages.push(message);
+
+                return prevState;
+            }, 
+            () => {
+                if (prevListHeight <= Math.ceil(this.listContainerRef.getBoundingClientRect().height + this.listContainerRef.scrollTop) + 100) {
+                    this.scrollDown();
+                }
+            }
+        );
+    }
 
     // private onNewUser (user: IUser) {
     //     this.setState((prevState, props) => {
@@ -88,9 +88,19 @@ export default class Room extends React.Component<{}, IState> {
                 // Запрос завершен. Здесь можно обрабатывать результат.
             }
         }
-        xhr.send(`chat_id=${(window as any).backendData.roomId}&vk_id=${(window as any).backendData.userId}&message=${this.state.messageText}`);         
+        xhr.send(`chat_id=${(window as any).backendData.roomId}&vk_id=${(window as any).backendData.userId}&message=${this.state.messageText}`);
 
-        //this.onNewMessage(message);
+        let author: any = {};
+    
+        (this.state.users.forEach((user) => {if (user.vkId == (window as any).backendData.userId) {author = user}}) || []);
+
+        this.onNewMessage({
+            text: this.state.messageText,
+            timestamp: (new Date()).valueOf(),
+            userName: author.name,
+            userUrl: author.userUrl,
+            avatarSrc: author.avatarSrc
+        });
     }
 
     private onChatAvatarClick = () => {
@@ -147,9 +157,15 @@ export default class Room extends React.Component<{}, IState> {
         this.listContainerRef = el;
     }
 
+    private getChatName () {
+        const {group, type, city, title} = (window as any).backendData.chat_info;
+
+        return getTitle(group, type, city, title);
+    }
+
     public render () {
         return <View 
-            chatName='Поезд Москва&nbsp;&mdash; Махачкала, 13.11.2017'
+            chatName={this.getChatName()}
             messages={this.state.messages}
             users={this.state.users}
             showModal={this.state.showModal}

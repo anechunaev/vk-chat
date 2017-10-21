@@ -28,7 +28,8 @@ import * as bodyParser from 'body-parser';
 import {
 	fetchChatList, 
 	fetchInitialChatData, 
-	fetchSendMessage
+	fetchSendMessage,
+	fetchNewMessages
 } from './externalApi';
 import {actualizeNamesAndAvatars} from './fixer';
 
@@ -118,6 +119,16 @@ app.post('/ajax/send', (req, res, next) => {
 		return response.text()
 	}).then((data) => {
 		res.send({result: 'ok'});
+	}).catch(() => {
+		res.send({result: 'error'});
+	})
+})
+app.get('/ajax/get_new_messages', (req, res, next) => {
+	fetchNewMessages({
+		chatId: req.query.chat_id,
+		vkId: req.query.vk_id
+	}).then((data) => {
+		res.send(data);
 	}).catch(() => {
 		res.send({result: 'error'});
 	})

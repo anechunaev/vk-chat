@@ -7,7 +7,7 @@ export default () => {
     }
 }
 
-const prepareMessages = (messages, users) => {
+export const prepareMessages = (messages, users) => {
     const result: any[] = [];
 
     for (let key in messages) {
@@ -42,7 +42,8 @@ const prepareUsers = (users) => {
         result.push({
             name: users[key].name + ' ' + users[key].surname,
             userUrl: 'https://vk.com/id'+users[key].vk_id,
-            avatarSrc: users[key].avatarSrc
+            avatarSrc: users[key].avatarSrc,
+            vkId: users[key].vk_id
         });
     }
 

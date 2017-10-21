@@ -21,3 +21,9 @@ export const fetchSendMessage = ({chatId, vkId, message}) => {
         body: `chat_id=${chatId}&vk_id=${vkId}&message=${message}`
     });
 }
+
+export const fetchNewMessages = ({chatId, vkId}) => {
+    return fetch(`http://vk-travel-chat.com:8080/getUnreadMessage?chat_id=${chatId}&vk_id=${vkId}`).then((response) => {
+        return response.json();
+    })
+}

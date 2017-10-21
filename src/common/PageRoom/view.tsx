@@ -52,6 +52,7 @@ export interface IUser {
     name: string;
     userUrl: string;
     avatarSrc: string;
+    vkId?: string;
 }
 
 const RoomView: React.StatelessComponent<IProps> = ({
@@ -72,7 +73,7 @@ const RoomView: React.StatelessComponent<IProps> = ({
         <Paper square>
             <Toolbar>
                 <div>
-                    <NavLink to="/" className={styles.link}>
+                    <NavLink to={`/${location.search}`} className={styles.link}>
                         <Button>
                             <ArrowIcon />
                             <span>
@@ -158,7 +159,7 @@ const RoomView: React.StatelessComponent<IProps> = ({
                                             style={linkStyle}
                                             gutterBottom
                                         >
-                                            <span>{formatDate(timestamp)}</span>
+                                            <span>{formatDate(timestamp*1000)}</span>
                                         </Typography>
                                     </div>
                                 )}
