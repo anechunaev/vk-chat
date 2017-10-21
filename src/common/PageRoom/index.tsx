@@ -96,7 +96,7 @@ export default class Room extends React.Component<{}, IState> {
 
         this.onNewMessage({
             text: this.state.messageText,
-            timestamp: (new Date()).valueOf(),
+            timestamp: Math.ceil((new Date()).valueOf()/1000),
             userName: author.name,
             userUrl: author.userUrl,
             avatarSrc: author.avatarSrc
@@ -163,12 +163,17 @@ export default class Room extends React.Component<{}, IState> {
         return getTitle(group, type, city, title);
     }
 
+    private getIconType () {
+        return (window as any).backendData.chat_info.type;
+    }
+
     public render () {
         return <View 
             chatName={this.getChatName()}
             messages={this.state.messages}
             users={this.state.users}
             showModal={this.state.showModal}
+            iconType={this.getIconType()}
             onChatAvatarClick={this.onChatAvatarClick}
             onDialogClose={this.onDialogClose}
             onTextChange={this.onTextChange}

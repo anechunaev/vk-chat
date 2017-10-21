@@ -4,6 +4,7 @@ import ArrowIcon from 'material-ui-icons/KeyboardArrowLeft';
 import AvatarWithoutHref from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import Dialog from 'material-ui/Dialog';
+import {Icon} from 'material-ui';
 import List, {
   ListItem,
   ListItemAvatar,
@@ -30,6 +31,7 @@ export interface IProps {
     users: IUser[];
     messageText: string;
     chatName: string;
+    iconType: string;
     showModal: boolean;
     onSendClick?: () => void;
     onChatAvatarClick: () => void;
@@ -60,6 +62,7 @@ const RoomView: React.StatelessComponent<IProps> = ({
     users,
     messageText,
     chatName,
+    iconType,
     showModal, 
     onSendClick, 
     onTextChange,
@@ -86,9 +89,9 @@ const RoomView: React.StatelessComponent<IProps> = ({
                     {chatName}
                 </div>
                 <div className={styles.rightToolsWrp} onClick={onChatAvatarClick}>
-                    <Avatar
-                        src='https://pp.userapi.com/c639118/v639118164/3f3b8/rTP6v_6Z-iU.jpg'
-                    />
+                    <Avatar>
+                        <Icon>{iconType}</Icon>
+                    </Avatar>
                     <Dialog
                         open={showModal}
                         onRequestClose={onDialogClose}
