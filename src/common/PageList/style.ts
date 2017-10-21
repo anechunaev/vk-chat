@@ -3,7 +3,7 @@ export default (theme: any): any => ({
 		display: 'flex',
 		position: 'absolute',
 		zIndex: -1,
-		height: 'calc(100vh - 64px)',
+		height: '100vh',
 		width: '100%',
 	},
 	drawerPaper: {
@@ -19,7 +19,7 @@ export default (theme: any): any => ({
 		overflowY: 'auto',
 		flexDirection: 'column',
 		width: 200,
-		height: 'calc(100vh - 64px)'
+		height: '100vh'
 	},
 	cardHolder: {
 		backgroundColor: theme.palette.background.default,

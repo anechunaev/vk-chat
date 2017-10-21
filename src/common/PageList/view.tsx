@@ -26,6 +26,7 @@ const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType) => {
 			title={room.title}
 			subtitle={room.date}
 			city={room.city}
+			hash={room.hash}
 		/>
 	));
 

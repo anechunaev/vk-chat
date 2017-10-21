@@ -12,6 +12,7 @@ export interface IProps {
 	title: string;
 	subtitle: string;
 	city?: string;
+	hash: string;
 }
 
 const EnhancedView = withStyles(styles)(View);

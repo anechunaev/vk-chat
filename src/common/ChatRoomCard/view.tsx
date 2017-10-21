@@ -12,6 +12,11 @@ import {
 } from 'material-ui';
 import CityImage from '../ChatCityImage';
 
+declare interface Window {
+	location: any;
+}
+declare const window: Window;
+
 export interface IProps extends IBaseProps {
 	classes: Dictionary<string>;
 }
@@ -38,9 +43,10 @@ class ChatRoomCardView extends React.PureComponent<IProps> {
 			title,
 			subtitle,
 			city,
+			hash,
 		} = this.props;
 		return (
-			<Card className={classes.card}>
+			<Card className={classes.card} onClick={() => window.location = `/room/${hash}`}>
 				<CardHeader
 					avatar={(
 						<Avatar className={getAvatarClassName(type, classes)}>

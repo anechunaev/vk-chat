@@ -99,7 +99,7 @@ app.use(compose([
 
 app.use('/', express.static('dist/public'));
 
-app.all('/', pageTemplateHandler);
+app.all('*', pageTemplateHandler);
 
 const keyFile = readFileSync(path.resolve(__dirname, '../../keys/privkey.pem'));
 const certFile = readFileSync(path.resolve(__dirname, '../../keys/fullchain.pem'));

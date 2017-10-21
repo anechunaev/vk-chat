@@ -20,6 +20,7 @@ export type ChatRoom = {
 	city: string;
 	users: string[];
 	newMessages?: number;
+	hash: string;
 }
 export type ChatGroup = {
 	icon: string;
@@ -45,6 +46,7 @@ class PageList extends React.Component<IProps, IState> {
 					city: "Москва",
 					users: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
 					newMessages: 5,
+					hash: '1',
 				},
 				{
 					group: "transport",
@@ -54,6 +56,7 @@ class PageList extends React.Component<IProps, IState> {
 					isJoined: false,
 					city: "Амстердам",
 					users: ["1", "2", "3", "4", "5", "6", "7"],
+					hash: '2',
 				},
 				{
 					group: "place",
@@ -63,6 +66,7 @@ class PageList extends React.Component<IProps, IState> {
 					isJoined: true,
 					city: "Москва",
 					users: ["1", "2", "3", "4", "5"],
+					hash: '3',
 				}
 			],
 			selectedGroup: "transport",
