@@ -24,6 +24,8 @@ import App from 'src/common/App';
 
 import * as paths from 'config/paths';
 
+import {fetchChatList} from './externalApi';
+
 const [manifest, chunkManifest] = ['manifest', 'chunk-manifest'].map(
 	name => JSON.parse(
 		readFileSync(path.resolve(paths.dist, `${name}.json`), 'utf8'),
@@ -82,6 +84,7 @@ const pageTemplateHandler: RequestHandler = async (req, res) => {
 			head={Helmet.rewind()}
 			window={{
 				webpackManifest: chunkManifest,
+				backendData: (res as any).backendData,
 				__STATE__: store.getState(),
 			}}
 			scripts={scripts}
@@ -98,6 +101,21 @@ app.use(compose([
 ]));
 
 app.use('/', express.static('dist/public'));
+
+app.use('/', (req, res, next) => {
+	console.log(req.query)
+
+	fetchChatList(req.query.viewer_id)
+		.then((data) => {
+			console.log(data);
+
+			(res as any).backendData = {
+				roomList: data
+			};
+
+			next();
+		});
+})
 
 app.all('*', pageTemplateHandler);
 
