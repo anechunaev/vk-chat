@@ -20,7 +20,7 @@ type RequestHandler = express.RequestHandler;
 import createNewStore from 'lib/redux';
 
 import Html from 'src/server/views/server';
-import App from 'src/common/App';
+//import App from 'src/common/App';
 
 import * as paths from 'config/paths';
 
@@ -71,7 +71,7 @@ const pageTemplateHandler: RequestHandler = async (req, res) => {
 	const components = (
 		<StaticRouter location={req.baseUrl} context={route}>
 			<Provider store={store}>
-				<App />
+				<div />
 			</Provider>
 		</StaticRouter>
 	);
