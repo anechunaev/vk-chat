@@ -1,5 +1,5 @@
 import * as React from 'react';
-import View, {IProps, IUser, IMessage} from './view';
+import View, {IUser, IMessage} from './view';
 
 import {messages, users} from "./data";
 
@@ -73,13 +73,13 @@ export default class Room extends React.Component<{}, IState> {
         );
     }
 
-    private onNewUser (user: IUser) {
-        this.setState((prevState, props) => {
-            prevState.users.push(user);
+    // private onNewUser (user: IUser) {
+    //     this.setState((prevState, props) => {
+    //         prevState.users.push(user);
 
-            return prevState;
-        });
-    }
+    //         return prevState;
+    //     });
+    // }
 
     private onSendMessage (message: IMessage) {
         //Тут должен быть эмит сообщения

@@ -7,6 +7,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -26,6 +28,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -45,6 +49,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -64,6 +70,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -83,6 +91,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -102,6 +112,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -121,6 +133,8 @@ export const messages = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
+        userName: 'Александр Диатонический',
+        timestamp: 1508533730223,
         avatarSrc: '',
         userUrl: 'https://vk.com/diatonic',
         text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'

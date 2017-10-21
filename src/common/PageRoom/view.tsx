@@ -1,29 +1,29 @@
 import * as React from 'react';
 
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
 import ArrowIcon from 'material-ui-icons/KeyboardArrowLeft';
-import Avatar from 'material-ui/Avatar';
+import AvatarWithoutHref from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
-import Dialog, { DialogTitle } from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog';
 import List, {
   ListItem,
   ListItemAvatar,
-  ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
 } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import TypographyWithoutHref from 'material-ui/Typography';
 import {formatDate} from './formatter';
+import { NavLink } from 'react-router-dom'
 
-import styles from './style.less';
+import * as styles from './style.less';
 
 const linkStyle = {
     display: 'inline'
 }
+
+const Typography: any = TypographyWithoutHref as any;
+const Avatar: any = AvatarWithoutHref as any;
 
 export interface IProps {
     messages: IMessage[];
@@ -72,10 +72,14 @@ const RoomView: React.StatelessComponent<IProps> = ({
         <Paper square>
             <Toolbar>
                 <div>
-                    <Button>
-                        <ArrowIcon />
-                        Назад
-                    </Button>
+                    <NavLink to="/" className={styles.link}>
+                        <Button>
+                            <ArrowIcon />
+                            <span>
+                                Назад
+                            </span>
+                        </Button>
+                    </NavLink>
                 </div>
                 <div className={styles.centerToolsWrp}>
                     {chatName}
