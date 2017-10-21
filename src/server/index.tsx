@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 
 import * as path from 'path';
+import * as https from 'https';
 import { readFileSync } from 'fs';
 import * as ms from 'microseconds';
 
@@ -100,5 +101,8 @@ app.use('/', express.static('dist/public'));
 
 app.all('/', pageTemplateHandler);
 
-app.listen(PORT, HOST);
+https.createServer({
+	key: readFileSync('./keys/privkey.pem'),
+	cert: readFileSync('./keys/fullchain.pem')
+}, app).listen(PORT, HOST);
 console.log(`Server started on ${HOST}:${PORT}`);
