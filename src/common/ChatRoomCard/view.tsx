@@ -27,6 +27,10 @@ const getAvatarClassName = (type: string, classes: Dictionary<string>) => {
 		return classes.avatarTrain;
 	case 'flight':
 		return classes.avatarFlight;
+	case 'hotel':
+		return classes.avatarHotel;
+	case 'place':
+		return classes.avatarPlace;
 	}
 
 	return classes.avatarTrain;
@@ -73,7 +77,7 @@ class ChatRoomCardView extends React.Component<IProps> {
 						</IconButton>
 					)}
 					{!!join && (
-						<Button color="default">Вступить</Button>
+						<Button color="primary">Вступить</Button>
 					)}
 				</CardActions>
 			</Card>

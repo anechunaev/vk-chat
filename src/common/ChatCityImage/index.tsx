@@ -49,7 +49,6 @@ class ChatCityImage extends React.Component<IProps, IState> {
 		return (
 			<div>
 				<div key="map" ref={n => this._map = n} />
-				{console.log('Draw image', this.state.city)}
 				{!!this.state.city ? (
 					<EnhancedView {...this.state} />
 				) : (
@@ -64,14 +63,17 @@ class ChatCityImage extends React.Component<IProps, IState> {
 		service.textSearch({
 			query: this.props.city
 		}, (data, status) => {
-			console.log('send query', this.props.city, this.state.city);
 			if (status == window.google.maps.places.PlacesServiceStatus.OK) {
 				service.getDetails({
 					placeId: data[0].place_id
 				}, (place, requestStatus) => {
-					if (!!place.photos.length) {
+					if (!!((place || {}).photos || []).length) {
 						this.setState({
 							city: place.photos[0].getUrl({'maxWidth': 600, 'maxHeight': 600})
+						});
+					} else {
+						this.setState({
+							city: 'http://www.chemtreat.com/static/media/close-out-x-square.png'
 						});
 					}
 				})
@@ -87,9 +89,8 @@ class ChatCityImage extends React.Component<IProps, IState> {
 	}
 
 	public componentDidMount() {
-		console.log('mount', this.props.city);
 		if (!SERVER && !this.state.city) {
-			setTimeout(this.googleQuery.bind(this), 1000);
+			setTimeout(this.googleQuery.bind(this), Math.floor(Math.random() * 10) * 100);
 		}
 	}
 }
