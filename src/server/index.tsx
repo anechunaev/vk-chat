@@ -101,8 +101,10 @@ app.use('/', express.static('dist/public'));
 
 app.all('/', pageTemplateHandler);
 
+const keyFile = readFileSync(path.resolve(__dirname, '../../keys/privkey.pem'));
+const certFile = readFileSync(path.resolve(__dirname, '../../keys/fullchain.pem'));
 https.createServer({
-	key: readFileSync('./keys/privkey.pem'),
-	cert: readFileSync('./keys/fullchain.pem')
+	key: keyFile,
+	cert: certFile
 }, app).listen(PORT, HOST);
 console.log(`Server started on ${HOST}:${PORT}`);
