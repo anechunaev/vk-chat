@@ -143,7 +143,12 @@ app.get('/', (req, res, next) => {
 
 			next();
 		}).catch((err) => {
-			res.send(err);
+			//res.send(err);
+			(res as any).backendData = {
+				roomList: []
+			};
+
+			next();
 		});
 })
 

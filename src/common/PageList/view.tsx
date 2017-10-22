@@ -5,6 +5,7 @@ import {
 	Drawer,
 	List,
 } from 'material-ui';
+import Paper from 'material-ui/Paper';
 
 import ChatRoomCard from '../ChatRoomCard';
 import ChatGroupListItem from '../ChatGroupListItem';
@@ -14,7 +15,7 @@ export interface IProps extends IBaseProps, IState {
 	callbacks: Dictionary<Dictionary<() => void>>;
 }
 
-const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType): any[] => {
+const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType, classes): any[] => {
 	const roomNodes = rooms.filter(room => (room.group === selectedGroup || selectedGroup === null)).map((room, index) => (
 		<ChatRoomCard
 			key={index}
@@ -30,11 +31,16 @@ const getRooms = (rooms: ChatRoom[], selectedGroup: ChatGroupType): any[] => {
 		/>
 	));
 
-	if (!!roomNodes) {
+	if (!!roomNodes && !!roomNodes.length) {
 		return roomNodes;
 	}
 
-	return [<div>Нет доступных чатов</div>];
+	return [(
+		<Paper classes={{root: classes.noChatsPaper}}>
+			<div>Нет доступных чатов</div>
+			<div>Чтобы присоединиться к чату, приобретите билет онлайн, например, на Tutu.ru, и общайтесь с попутчиками</div>
+		</Paper>
+	)];
 }
 
 class PageView extends React.Component<IProps> {
@@ -56,7 +62,7 @@ class PageView extends React.Component<IProps> {
 					</List>
 				</Drawer>
 				<div className={classes.cardHolder}>
-					{(() => [...getRooms(rooms, selectedGroup)])()}
+					{(() => [...getRooms(rooms, selectedGroup, classes)])()}
 				</div>
 			</div>
 		)
