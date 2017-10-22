@@ -36,7 +36,7 @@ const Html = ({ head, html, scripts, window, css, vendorCss }: HtmlProps) => (
 				}}
 			/>
 			{scripts.map(src => <script key={src} defer src={src} />)}
-			<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIL1IXJ4KSJ-WBPXdmmIzEqohWH1fp5GQ&libraries=places" />
+			<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4qVaUn5ExjtT_u7hwDVDBHs3rOoQiD3w&libraries=places" />
 		</body>
 	</html>
 );
